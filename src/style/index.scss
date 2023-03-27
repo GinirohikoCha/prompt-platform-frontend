@@ -1,0 +1,32 @@
+@import "style.css";
+
+html {
+    height: 100%;
+}
+
+/* 去除的margin */
+body {
+    margin: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: (--font-family);
+}
+
+/* 去除router-link与a的字体效果与下划线 */
+a:focus,
+a:active {
+    outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#app {
+    height: 100%;
+}
