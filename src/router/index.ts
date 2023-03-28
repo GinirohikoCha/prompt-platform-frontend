@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useGuard } from '@/router/guard'
+import Layout from '@/layout/Layout.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
+import Homepage from '@/pages/Homepage.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -11,11 +13,18 @@ declare module 'vue-router' {
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld,
-    meta: {
-      title: 'HelloWorld'
-    }
+    redirect: '/homepage',
+    component: Layout,
+    children: [
+      {
+        path: '/homepage',
+        name: 'homepage',
+        component: () => Homepage,
+        meta: {
+          title: 'HelloWorld'
+        }
+      }
+    ]
   },
   /* 404 */
   // {

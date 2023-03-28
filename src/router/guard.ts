@@ -7,6 +7,7 @@ export function useGuard(router: Router) {
     if (to.meta?.title) {
       document.title = getPageTitle(to.meta.title)
     }
+    next()
   })
   router.afterEach(() => {
   })

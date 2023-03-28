@@ -6,6 +6,7 @@ import PrimeVue from 'primevue/config'
 import installPrimeVueComps from '@/plugins/primevue'
 
 import '@/style/index.scss'
+import 'virtual:svg-icons-register'
 
 const app: App = createApp(App)
 

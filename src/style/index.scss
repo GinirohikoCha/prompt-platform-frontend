@@ -1,5 +1,3 @@
-@import "style.css";
-
 html {
     height: 100%;
 }
@@ -10,7 +8,6 @@ body {
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    font-family: (--font-family);
 }
 
 /* 去除router-link与a的字体效果与下划线 */
