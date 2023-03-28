@@ -21,7 +21,7 @@ export const routes: RouteRecordRaw[] = [
         name: 'homepage',
         component: () => Homepage,
         meta: {
-          title: 'HelloWorld'
+          title: '首页'
         }
       }
     ]
