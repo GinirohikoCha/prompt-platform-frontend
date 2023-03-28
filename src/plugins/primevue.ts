@@ -18,8 +18,13 @@ import Tag from 'primevue/tag'
 import ScrollTop from 'primevue/scrolltop'
 import ScrollPanel from 'primevue/scrollpanel'
 import Divider from 'primevue/divider'
+import Tooltip from 'primevue/tooltip'
+import OverlayPanel from 'primevue/overlaypanel'
+import Textarea from 'primevue/textarea'
+import Message from 'primevue/message'
 
 export default (app: App) => {
+  app.directive('tooltip', Tooltip)
   app.component('Button', Button)
   app.component('Image', Image)
   app.component('InputText', InputText)
@@ -30,4 +35,7 @@ export default (app: App) => {
   app.component('ScrollTop', ScrollTop)
   app.component('ScrollPanel', ScrollPanel)
   app.component('Divider', Divider)
+  app.component('OverlayPanel', OverlayPanel)
+  app.component('Textarea', Textarea)
+  app.component('Message', Message)
 }

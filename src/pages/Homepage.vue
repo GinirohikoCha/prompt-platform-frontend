@@ -4,11 +4,11 @@
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
           <SvgIcon style="position:relative; top:2px;" name="openai" color="#326fd1"/>
-          &nbsp;POWERED BY CHAT-GPT
+          POWERED BY CHAT-GPT
         </div>
-        <div class="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
-        <div class="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam
-          eligendi quos.
+        <div class="text-900 font-bold text-5xl mb-3">Prompt 提示词分享平台</div>
+        <div class="text-700 text-2xl mb-5">
+          点燃创意，分享灵感
         </div>
 
         <div style="margin-top: 20px">
@@ -22,7 +22,7 @@
 
         <div style="display: inline-block; margin-top: 50px; width: 60vw">
           <div class="text-left">
-            <SelectButton v-model="selectCategoryRef" :options="['全部', '热门']" aria-labelledby="basic" />
+            <SelectButton v-model="selectCategoryRef" :options="['全部', '热门', '最新']" aria-labelledby="basic" />
           </div>
 
           <div class="grid" style="margin-top: 0.8rem">
