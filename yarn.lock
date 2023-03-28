@@ -668,6 +668,11 @@ domutils@^2.8.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
+emojilib@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/emojilib/-/emojilib-3.0.9.tgz#cfb124a62fe5c8fd26c5a21c929a97bd6f548fc6"
+  integrity sha512-D7iHAUCozKRNLryimoRI62T+Vm8xjtaBtF0gUFerYNz64t8Yef3tLg0uKzecb1+tAViC0kKNPLy7WeytRW4qlg==
+
 emojis-list@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"

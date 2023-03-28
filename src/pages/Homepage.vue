@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <ScrollPanel style="width: 100%; height: 100%">
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
@@ -15,8 +15,8 @@
           <span class="p-input-icon-left p-float-label">
             <i class="pi pi-search"/>
             <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw"/>
-            <label for="value">Search</label>
-            <Button class="ml-1 shadow-5" label="NEW" icon="pi pi-plus"/>
+            <label for="value">查询 Prompt</label>
+            <Button class="ml-2 shadow-5" label="分享" icon="pi pi-plus" @click="handleNew"/>
           </span>
         </div>
 
@@ -65,27 +65,31 @@
         </div>
       </div>
     </div>
-  </div>
+    <ScrollTop target="parent" :threshold="100"/>
+  </ScrollPanel>
 </template>
 
 <script setup lang="ts">
 import SvgIcon from '@/components/SvgIcon.vue'
 import { ref } from 'vue'
+import router from '@/router'
 
 const searchTextRef = ref(null)
 const selectCategoryRef = ref('全部')
+
+const handleNew = () => router.push('/editor')
 </script>
 
 <style scoped>
-/deep/.p-rating .p-rating-item .p-rating-icon {
+:deep(.p-rating .p-rating-item .p-rating-icon) {
   font-size: 1rem;
 }
 
-/deep/.p-card .p-card-content {
+:deep(.p-card .p-card-content) {
   padding: 0.5rem 0;
 }
 
-/deep/.p-card .p-card-footer {
+:deep(.p-card .p-card-footer) {
   padding: 1rem 0 0 0;
 }
 </style>

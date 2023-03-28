@@ -15,6 +15,9 @@ import SelectButton from 'primevue/selectbutton'
 import Card from 'primevue/card'
 import Rating from 'primevue/rating'
 import Tag from 'primevue/tag'
+import ScrollTop from 'primevue/scrolltop'
+import ScrollPanel from 'primevue/scrollpanel'
+import Divider from 'primevue/divider'
 
 export default (app: App) => {
   app.component('Button', Button)
@@ -24,4 +27,7 @@ export default (app: App) => {
   app.component('Card', Card)
   app.component('Rating', Rating)
   app.component('Tag', Tag)
+  app.component('ScrollTop', ScrollTop)
+  app.component('ScrollPanel', ScrollPanel)
+  app.component('Divider', Divider)
 }

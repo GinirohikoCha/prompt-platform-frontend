@@ -1,8 +1,9 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useGuard } from '@/router/guard'
 import Layout from '@/layout/Layout.vue'
-import HelloWorld from '@/components/HelloWorld.vue'
+
 import Homepage from '@/pages/Homepage.vue'
+import Editor from '@/pages/Editor.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -18,10 +19,18 @@ export const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '/homepage',
-        name: 'homepage',
+        name: 'Homepage',
         component: () => Homepage,
         meta: {
           title: '首页'
+        }
+      },
+      {
+        path: '/editor',
+        name: 'Editor',
+        component: () => Editor,
+        meta: {
+          title: '创作'
         }
       }
     ]
