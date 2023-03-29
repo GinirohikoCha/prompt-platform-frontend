@@ -5,6 +5,7 @@ import Layout from '@/layout/Layout.vue'
 import Homepage from '@/pages/Homepage.vue'
 import Editor from '@/pages/Editor.vue'
 import Login from '@/pages/Login.vue'
+import Register from '@/pages/Register.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -41,11 +42,16 @@ export const routes: RouteRecordRaw[] = [
     name: 'Login',
     component: Login
   },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
   /* 404 */
-  // {
-  //     path: '/:catchAll(.*)',
-  //     redirect: '/'
-  // }
+  {
+      path: '/:catchAll(.*)',
+      redirect: '/'
+  }
 ]
 
 const router = createRouter({
