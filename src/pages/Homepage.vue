@@ -1,6 +1,6 @@
 <template>
   <ScrollPanel style="width: 100%; height: 100%">
-    <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
           <SvgIcon style="position:relative; top:2px;" name="openai" color="#326fd1"/>
@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/SvgIcon.vue'
 import PromptBrief from '@/components/PromptBrief.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import router from '@/router'
 import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
@@ -54,6 +54,13 @@ const selectCategoryRef = ref('全部')
 
 const prompts = ref([])
 
+watch(selectCategoryRef, (newValue) => {
+  if (!newValue) {
+    selectCategoryRef.value = '全部'
+  }
+  refresh()
+})
+
 const handleNew = () => {
   if (store.isAuth()) {
     router.push('/editor')
@@ -62,13 +69,16 @@ const handleNew = () => {
     toast.add({ severity: 'warn', summary: '需要登录', detail: '需要登录后才能使用分享功能', life: 3000 })
   }
 }
-
-onMounted(() =>{
+const refresh = () => {
   list().then(res => {
     prompts.value = res.data
   }).catch(err => {
     toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
   })
+}
+
+onMounted(() => {
+  refresh()
 })
 </script>
 

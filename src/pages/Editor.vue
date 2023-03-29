@@ -1,6 +1,6 @@
 <template>
   <ScrollPanel style="width: 100%; height: 100%">
-    <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <Card class="inline-block w-6 shadow-3 text-left">
           <template #title>
