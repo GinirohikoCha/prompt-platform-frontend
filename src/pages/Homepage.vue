@@ -73,11 +73,23 @@
 import SvgIcon from '@/components/SvgIcon.vue'
 import { ref } from 'vue'
 import router from '@/router'
+import { authStore } from '@/stores/auth'
+import { useToast } from 'primevue/usetoast'
+
+const store = authStore()
+const toast = useToast()
 
 const searchTextRef = ref(null)
 const selectCategoryRef = ref('全部')
 
-const handleNew = () => router.push('/editor')
+const handleNew = () => {
+  if (store.isAuth()) {
+    router.push('/editor')
+  } else {
+    router.push('/login')
+    toast.add({ severity: 'warn', summary: '需要登录', detail: '需要登录后才能使用分享功能', life: 3000 })
+  }
+}
 </script>
 
 <style scoped>

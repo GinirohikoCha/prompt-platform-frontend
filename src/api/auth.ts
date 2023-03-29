@@ -7,3 +7,11 @@ export const login = (data: object) => {
     data
   })
 }
+
+export const register = (data: object) => {
+  return request({
+    url: '/auth/register',
+    method: 'post',
+    data
+  })
+}

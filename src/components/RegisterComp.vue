@@ -38,15 +38,14 @@
         </template>
       </Password>
 
-      <Toast />
-      <Button label="注 册" icon="pi pi-user" class="w-full" @click="handleLogin"></Button>
+      <Button label="注 册" icon="pi pi-user" class="w-full" @click="handleRegister"></Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { login } from '@/api/auth'
+import { login, register } from '@/api/auth'
 import { useToast } from 'primevue/usetoast'
 import router from '@/router'
 const toast = useToast()
@@ -54,8 +53,7 @@ const toast = useToast()
 const form = ref({
   username: '',
   phoneNumber: '',
-  password: '',
-  rememberMe: false
+  password: ''
 })
 const focus = ref(false)
 
@@ -66,6 +64,14 @@ const computedForm = computed(() => {
 })
 
 const handleLogin = () => router.push('/login')
+const handleRegister = () => {
+  register(computedForm.value).then(res => {
+    toast.add({ severity: 'success', summary: '注册成功', detail: '赶紧试一试吧', life: 3000 })
+    router.replace('/')
+  }).catch(err => {
+    toast.add({ severity: 'error', summary: '注册失败', detail: err.message, life: 3000 })
+  })
+}
 </script>
 
 <style scoped>

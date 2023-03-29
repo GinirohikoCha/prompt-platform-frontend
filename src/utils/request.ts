@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { authStore } from '@/stores/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -34,10 +35,16 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.code === 200) {
-      return res
-    } else {
-      return Promise.reject(new Error(res.message || '请求过程中发生错误'))
+
+    switch (res.code) {
+      case 200:
+        return res
+      case 401:
+        const store = authStore()
+        store.resetToken()
+        return Promise.reject(new Error(res.message || '请求过程中发生错误'))
+      default:
+        return Promise.reject(new Error(res.message || '请求过程中发生错误'))
     }
   },
   error => {

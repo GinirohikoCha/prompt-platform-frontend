@@ -33,7 +33,6 @@
         </div>
       </div>
 
-      <Toast />
       <Button label="登 录" icon="pi pi-user" class="w-full" @click="handleLogin"></Button>
     </div>
   </div>
