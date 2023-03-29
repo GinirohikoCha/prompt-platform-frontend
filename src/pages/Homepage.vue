@@ -26,40 +26,8 @@
           </div>
 
           <div class="grid" style="margin-top: 0.8rem">
-            <div class="col-12 md:col-6 lg:col-3 p-1">
-              <Card class="text-left shadow-2">
-                <template #title>🧙‍ 扮演一名法师 </template>
-                <template #subtitle> 欢迎来到霍格沃兹 </template>
-                <template #content>
-                  <Rating v-model="value" :cancel="false" readonly />
-                  <div style="font-size: 0.8rem; margin-top: 0.5rem; font-weight: bold">创作者：-</div>
-                  <div class="flex flex-wrap gap-1" style="margin-top: 0.5rem">
-                    <Tag value="官方" />
-                    <Tag severity="success" value="开源" />
-                  </div>
-                </template>
-                <template #footer>
-                  <Button icon="pi pi-pencil" label="试一试" size="small"/>
-                </template>
-              </Card>
-            </div>
-
-            <div class="col-12 md:col-6 lg:col-3 p-1">
-              <Card class="text-left shadow-2">
-                <template #title>💻 ‍扮演 Linux 终端 </template>
-                <template #subtitle> 你的下一台 Linux 又何必是 Linux</template>
-                <template #content>
-                  <Rating v-model="value" :cancel="false" readonly />
-                  <div style="font-size: 0.8rem; margin-top: 0.5rem; font-weight: bold">创作者：-</div>
-                  <div class="flex flex-wrap gap-1" style="margin-top: 0.5rem">
-                    <Tag value="官方" />
-                    <Tag severity="warning" value="收费" />
-                  </div>
-                </template>
-                <template #footer>
-                  <Button icon="pi pi-pencil" label="试一试" size="small"/>
-                </template>
-              </Card>
+            <div v-for="prompt in prompts" :key="prompt" class="col-12 md:col-6 lg:col-3 p-1">
+              <PromptBrief :prompt="prompt" />
             </div>
           </div>
         </div>
@@ -71,16 +39,20 @@
 
 <script setup lang="ts">
 import SvgIcon from '@/components/SvgIcon.vue'
-import { ref } from 'vue'
+import PromptBrief from '@/components/PromptBrief.vue'
+import { onMounted, ref } from 'vue'
 import router from '@/router'
 import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
+import { list } from '@/api/prompt'
 
 const store = authStore()
 const toast = useToast()
 
 const searchTextRef = ref(null)
 const selectCategoryRef = ref('全部')
+
+const prompts = ref([])
 
 const handleNew = () => {
   if (store.isAuth()) {
@@ -90,6 +62,14 @@ const handleNew = () => {
     toast.add({ severity: 'warn', summary: '需要登录', detail: '需要登录后才能使用分享功能', life: 3000 })
   }
 }
+
+onMounted(() =>{
+  list().then(res => {
+    prompts.value = res.data
+  }).catch(err => {
+    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+  })
+})
 </script>
 
 <style scoped>

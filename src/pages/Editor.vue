@@ -56,7 +56,7 @@
           </template>
           <template #footer>
             <div class="flex gap-2 text-right">
-              <Button icon="pi pi-send" label="发布" size="small" />
+              <Button icon="pi pi-send" label="发布" size="small" @click="handleSubmit"/>
               <Button icon="pi pi-caret-right" label="测试" severity="success" size="small"/>
             </div>
           </template>
@@ -85,6 +85,10 @@
 import router from '@/router'
 import { ref } from 'vue'
 import EmojiLib from 'emojilib/dist/emoji-en-US.json'
+import { create } from '@/api/prompt'
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast()
 
 const emojiSelector = ref()
 
@@ -94,7 +98,7 @@ const form = ref({
   title: '',
   description: '',
   sentences: [{
-    role: 'system', content: ''
+    roleType: 'system', content: ''
   }]
 })
 
@@ -106,6 +110,15 @@ const handleClickEmoji = (emoji: string) => {
 }
 const getCountText = (length: number, max: number) => length > 0 ? `${length} / ${max}` : ''
 const handleExceed = (index: number, val: string, max: number) => pInvalid.value[index] = val.length > max
+const handleSubmit = () => {
+  // TODO 验证
+  create(form.value).then((res: any) => {
+    toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
+    router.push('/')
+  }).catch(err => {
+    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+  })
+}
 </script>
 
 <style scoped>
