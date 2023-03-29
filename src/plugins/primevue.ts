@@ -22,6 +22,11 @@ import Tooltip from 'primevue/tooltip'
 import OverlayPanel from 'primevue/overlaypanel'
 import Textarea from 'primevue/textarea'
 import Message from 'primevue/message'
+import Checkbox from 'primevue/checkbox'
+import InputMask from 'primevue/inputmask'
+import Password from 'primevue/password'
+import Toast from 'primevue/toast'
+import ToastService from 'primevue/toastservice'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -38,4 +43,9 @@ export default (app: App) => {
   app.component('OverlayPanel', OverlayPanel)
   app.component('Textarea', Textarea)
   app.component('Message', Message)
+  app.component('Checkbox', Checkbox)
+  app.component('InputMask', InputMask)
+  app.component('Password', Password)
+  app.component('Toast', Toast)
+  app.use(ToastService)
 }

@@ -4,6 +4,7 @@ import Layout from '@/layout/Layout.vue'
 
 import Homepage from '@/pages/Homepage.vue'
 import Editor from '@/pages/Editor.vue'
+import Login from '@/pages/Login.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -18,7 +19,7 @@ export const routes: RouteRecordRaw[] = [
     component: Layout,
     children: [
       {
-        path: '/homepage',
+        path: 'homepage',
         name: 'Homepage',
         component: () => Homepage,
         meta: {
@@ -26,7 +27,7 @@ export const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/editor',
+        path: 'editor',
         name: 'Editor',
         component: () => Editor,
         meta: {
@@ -34,6 +35,11 @@ export const routes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   /* 404 */
   // {
