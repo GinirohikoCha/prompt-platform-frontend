@@ -1,4 +1,4 @@
-import App from '@/App.vue'
+import { App } from '@vue/runtime-core'
 //theme
 import 'primevue/resources/themes/lara-light-indigo/theme.css'
 //core

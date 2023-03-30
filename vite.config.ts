@@ -13,7 +13,7 @@ export default defineConfig((mode: ConfigEnv) => {
       open: true,
       proxy: {
         [proxyPath]: {
-          target: "http://localhost:8080",
+          target: "http://localhost:8090",
           changeOrigin: true,
           rewrite: (path) => path,
         },

@@ -2,10 +2,7 @@
   <router-view />
 </template>
 
-<script>
-export default {
-  name: 'Layout'
-}
+<script setup lang="ts">
 </script>
 
 <style scoped>
