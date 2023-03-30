@@ -7,6 +7,13 @@ export const list = () => {
   })
 }
 
+export const detail = (id: any) => {
+  return request({
+    url: `/prompt/${id}`,
+    method: 'get'
+  })
+}
+
 export const create = (data: object) => {
   return request({
     url: '/prompt/create',

@@ -27,6 +27,8 @@ import InputMask from 'primevue/inputmask'
 import Password from 'primevue/password'
 import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
+import Fieldset from 'primevue/fieldset'
+import Avatar from 'primevue/avatar'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -48,4 +50,6 @@ export default (app: App) => {
   app.component('Password', Password)
   app.component('Toast', Toast)
   app.use(ToastService)
+  app.component('Fieldset', Fieldset)
+  app.component('Avatar', Avatar)
 }

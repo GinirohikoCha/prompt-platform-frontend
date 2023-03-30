@@ -1,5 +1,5 @@
 <template>
-  <ScrollPanel style="width: 100%; height: 100%">
+  <ScrollPanel class="h-full w-full">
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
@@ -41,11 +41,12 @@
 import SvgIcon from '@/components/SvgIcon.vue'
 import PromptBrief from '@/components/PromptBrief.vue'
 import { onMounted, ref, watch } from 'vue'
-import router from '@/router'
 import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const store = authStore()
 const toast = useToast()
 

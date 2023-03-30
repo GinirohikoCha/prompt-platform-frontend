@@ -5,7 +5,8 @@ import { authStore } from '@/stores/auth'
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  // 超时上线 2 分钟
+  timeout: 120000 // request timeout
 })
 
 // request interceptor
@@ -48,6 +49,13 @@ service.interceptors.response.use(
     }
   },
   error => {
+    switch (error.code) {
+      case 'ECONNABORTED':
+        if (error.message.startsWith('timeout of')) {
+          error.message = '访问超时，请稍后重试！'
+        }
+        return Promise.reject(error)
+    }
     console.error(error) // for debug
     return Promise.reject(error)
   }

@@ -6,6 +6,7 @@ import Homepage from '@/pages/Homepage.vue'
 import Editor from '@/pages/Editor.vue'
 import Login from '@/pages/Login.vue'
 import Register from '@/pages/Register.vue'
+import Chat from '@/pages/Chat.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -33,6 +34,14 @@ export const routes: RouteRecordRaw[] = [
         component: () => Editor,
         meta: {
           title: '创作'
+        }
+      },
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: () => Chat,
+        meta: {
+          title: '聊天'
         }
       }
     ]

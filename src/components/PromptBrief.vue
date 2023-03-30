@@ -19,15 +19,21 @@
       </div>
     </template>
     <template #footer>
-      <Button icon="pi pi-pencil" label="试一试" size="small"/>
+      <Button icon="pi pi-pencil" label="试一试" size="small" @click="handleTry"/>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const props = defineProps({
   prompt: Object
 })
+
+const handleTry = () => router.push({ path: '/chat', query: { promptId: props.prompt?.id } })
 </script>
 
 <style scoped>

@@ -82,12 +82,13 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
 import { ref } from 'vue'
 import EmojiLib from 'emojilib/dist/emoji-en-US.json'
 import { create } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const toast = useToast()
 
 const emojiSelector = ref()

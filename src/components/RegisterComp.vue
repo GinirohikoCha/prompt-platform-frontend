@@ -1,7 +1,7 @@
 <template>
   <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
-      <img src="src/assets/svg-icons/openai.svg" alt="Image" height="50" class="mb-3">
+      <img src="../../public/openai.svg" alt="Image" height="50" class="mb-3">
       <div class="text-900 text-2xl font-medium mb-3">成为新的朋友</div>
       <span class="text-600 font-medium line-height-3">已经注册过了?</span>
       <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" @click="handleLogin">现在登录!</a>
@@ -47,7 +47,9 @@
 import { computed, ref } from 'vue'
 import { login, register } from '@/api/auth'
 import { useToast } from 'primevue/usetoast'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const toast = useToast()
 
 const form = ref({
