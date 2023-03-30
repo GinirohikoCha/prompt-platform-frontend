@@ -9,7 +9,7 @@
           <span style="line-height: 39px">{{ prompt ? `${prompt.emoji} ${prompt.title}` : '聊天' }}</span>
         </template>
         <template #content>
-          <div>
+          <div class="select-text">
             <!--  Prompt 预置  -->
             <Fieldset
                 v-for="chat in prompt?.sentences"

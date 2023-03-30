@@ -21,7 +21,7 @@
         </div>
 
         <div style="display: inline-block; margin-top: 50px; width: 60vw">
-          <div class="text-left">
+          <div class="text-center md:text-left">
             <SelectButton v-model="selectCategoryRef" :options="['全部', '热门', '最新']" aria-labelledby="basic" />
           </div>
 
