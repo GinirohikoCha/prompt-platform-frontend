@@ -1,6 +1,11 @@
 <template>
   <Card class="text-left shadow-2 select-none">
-    <template #title>{{ props.prompt?.emoji }} {{ props.prompt?.title }} </template>
+    <template #title>
+      <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+           v-tooltip.bottom="props.prompt.title">
+        {{ props.prompt?.emoji }} {{ props.prompt?.title }}
+      </div>
+    </template>
     <template #subtitle>
       <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
            v-tooltip.bottom="props.prompt?.description">
