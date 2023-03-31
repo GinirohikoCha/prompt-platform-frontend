@@ -48,9 +48,13 @@
                       :class="{ 'p-invalid': pInvalid[2] }"
                       autoResize
                       :rows="3"
-                      @input="handleExceed(2, form.sentences[0].content, 255)"/>
-                  <label for="value">提示词 {{ getCountText(form.sentences[0].content.length, 255) }}</label>
+                      @input="handleExceed(2, form.sentences[0].content, 1024)"/>
+                  <label for="value">提示词 {{ getCountText(form.sentences[0].content.length, 1024) }}</label>
                 </span>
+              </div>
+              <div class="w-full text-left" style="margin-top: 2rem">
+                <Checkbox v-model="form.isOpenSource" inputId="isOpenSource" :binary="true" />
+                <label for="isOpenSource" class="ml-2">是否开源</label>
               </div>
             </div>
           </template>
@@ -98,6 +102,7 @@ const form = ref({
   emoji: '🤖',
   title: '',
   description: '',
+  isOpenSource: true,
   sentences: [{
     roleType: 'system', content: ''
   }]
@@ -112,7 +117,37 @@ const handleClickEmoji = (emoji: string) => {
 const getCountText = (length: number, max: number) => length > 0 ? `${length} / ${max}` : ''
 const handleExceed = (index: number, val: string, max: number) => pInvalid.value[index] = val.length > max
 const handleSubmit = () => {
-  // TODO 验证
+  // 空字符串检测
+  if (form.value.title.length === 0) {
+    toast.add({ severity: 'error', summary: '发生错误', detail: '标题不能为空', life: 3000 })
+    return
+  }
+  if (form.value.description.length === 0) {
+    toast.add({ severity: 'error', summary: '发生错误', detail: '简介不能为空', life: 3000 })
+    return
+  }
+  for (const sentence of form.value.sentences) {
+    if (sentence.content.length === 0) {
+      toast.add({ severity: 'error', summary: '发生错误', detail: '提示词不能为空', life: 3000 })
+      return
+    }
+  }
+  // 长度检测
+  if (form.value.title.length > 45) {
+    toast.add({ severity: 'error', summary: '发生错误', detail: '标题超出长度', life: 3000 })
+    return
+  }
+  if (form.value.description.length > 125) {
+    toast.add({ severity: 'error', summary: '发生错误', detail: '简介超出长度', life: 3000 })
+    return
+  }
+  for (const sentence of form.value.sentences) {
+    if (sentence.content.length > 1024) {
+      toast.add({ severity: 'error', summary: '发生错误', detail: '提示词超出长度', life: 3000 })
+      return
+    }
+  }
+
   create(form.value).then((res: any) => {
     toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
     router.push('/')

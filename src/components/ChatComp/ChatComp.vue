@@ -12,7 +12,7 @@
           <div class="select-text">
             <!--  Prompt 预置  -->
             <Fieldset
-                v-for="chat in prompt?.sentences"
+                v-for="chat in computedPrompt"
                 :key="chat"
                 class="mt-2 shadow-1">
               <template #legend>
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { nextTick, onMounted, Ref, ref } from 'vue'
+import { computed, nextTick, onMounted, Ref, ref } from 'vue'
 import { detail } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
 import { send } from '@/api/chat'
@@ -76,6 +76,8 @@ const prompt = ref()
 const conversation: Ref<any[]> = ref([])
 const input = ref('')
 const loading = ref(false)
+
+const computedPrompt = computed(() => prompt.value?.isOpenSource ? prompt.value?.sentences : [{ role: 'system', content: '[闭源提示词已加载]' }])
 
 const handleBack = () => router.back()
 const handleEnter = (event: KeyboardEvent) => {
