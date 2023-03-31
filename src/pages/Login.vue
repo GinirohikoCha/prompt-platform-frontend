@@ -6,6 +6,18 @@
 
 <script setup lang="ts">
 import LoginComp from '@/components/LoginComp.vue'
+import { onMounted } from 'vue'
+import { authStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const store = authStore()
+
+onMounted(() => {
+  if (store.isAuth()) {
+    router.push('/')
+  }
+})
 </script>
 
 <style scoped>
