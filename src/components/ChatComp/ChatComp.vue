@@ -18,6 +18,7 @@
               <template #legend>
                 <Avatar v-if="chat.role === 'system'" icon="pi pi-server" shape="circle" />
                 <Avatar v-else-if="chat.role === 'assistant'" image="/openai.svg" shape="circle" />
+<!--                <Avatar v-else-if="chat.role === 'assistant'" :label="prompt?.emoji" shape="circle" />-->
                 <Avatar v-else icon="pi pi-user" shape="circle" />
               </template>
               <p class="m-0">{{ chat.content }}</p>
@@ -30,25 +31,27 @@
               <template #legend>
                 <Avatar v-if="chat.role === 'system'" icon="pi pi-server" shape="circle" />
                 <Avatar v-else-if="chat.role === 'assistant'" image="/openai.svg" shape="circle" />
+                <!--                <Avatar v-else-if="chat.role === 'assistant'" :label="prompt?.emoji" shape="circle" />-->
                 <Avatar v-else icon="pi pi-user" shape="circle" />
               </template>
               <p class="m-0">{{ chat.content }}</p>
             </Fieldset>
           </div>
           <!--  输入框  -->
-          <div class="input-field">
-            <span class="p-float-label p-input-icon-right w-full">
+          <div class="input-field grid grid-nogutter gap-2">
+            <span class="p-float-label p-input-icon-right w-full col">
               <i v-if="loading" class="pi pi-spin pi-spinner" />
               <Textarea
                   id="inputTextArea"
-                  class="shadow-4 w-full"
+                  class="shadow-2 w-full"
                   v-model.trim="input"
                   :disabled="loading"
                   rows="1"
                   auto-resize
                   @keydown.enter="handleEnter"/>
-              <label>{{ loading ? '请求回复中，长难句处理量大，麻烦耐心等待回复' : '开始聊天' }}</label>
+              <label>{{ loading ? '请求回复中，请稍后' : '开始聊天' }}</label>
             </span>
+            <Button class="shadow-2" style="height: 47px" icon="pi pi-send" label="发送" size="small" :disabled="loading" @click="sendMessage"/>
           </div>
         </template>
       </Card>
@@ -77,26 +80,30 @@ const loading = ref(false)
 const handleBack = () => router.back()
 const handleEnter = (event: KeyboardEvent) => {
   if (!event.shiftKey) {
-    if (input.value.length === 0) return
-    loading.value = true
-    // 加入 conversation
-    conversation.value.push({ role: 'user', content: input.value })
-    // 清空输入
-    input.value = ''
-    // 发送聊天
-    send(promptId, { conversation: conversation.value }).then(res => {
-      conversation.value.push(res.data)
-    }).catch(err => {
-      const { content } = conversation.value.pop()
-      input.value = content
-      toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
-    }).finally(() => {
-      loading.value = false
-      nextTick(() => {
-        document.getElementById('inputTextArea')?.focus()
-      })
-    })
+    sendMessage()
   }
+}
+
+const sendMessage = () => {
+  if (input.value.length === 0) return
+  loading.value = true
+  // 加入 conversation
+  conversation.value.push({ role: 'user', content: input.value })
+  // 清空输入
+  input.value = ''
+  // 发送聊天
+  send(promptId, { conversation: conversation.value }).then(res => {
+    conversation.value.push(res.data)
+  }).catch(err => {
+    const { content } = conversation.value.pop()
+    input.value = content
+    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+  }).finally(() => {
+    loading.value = false
+    nextTick(() => {
+      document.getElementById('inputTextArea')?.focus()
+    })
+  })
 }
 
 onMounted(() => {

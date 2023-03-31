@@ -22,7 +22,7 @@
 
         <div style="display: inline-block; margin-top: 50px; width: 60vw">
           <div class="text-center md:text-left">
-            <SelectButton v-model="selectCategoryRef" :options="['全部', '热门', '最新']" aria-labelledby="basic" />
+            <SelectButton v-model="selectCategoryRef" :options="types" aria-labelledby="basic" />
           </div>
 
           <div class="grid" style="margin-top: 0.8rem">
@@ -45,6 +45,8 @@ import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
 import { useRouter } from 'vue-router'
+
+const types = ['全部', '热门', '最新'];
 
 const router = useRouter()
 const store = authStore()
@@ -71,7 +73,7 @@ const handleNew = () => {
   }
 }
 const refresh = () => {
-  list().then(res => {
+  list(types.indexOf(selectCategoryRef.value)).then(res => {
     prompts.value = res.data
   }).catch(err => {
     toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
