@@ -29,6 +29,7 @@ import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
 import Fieldset from 'primevue/fieldset'
 import Avatar from 'primevue/avatar'
+import Dialog from 'primevue/dialog'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -52,4 +53,5 @@ export default (app: App) => {
   app.use(ToastService)
   app.component('Fieldset', Fieldset)
   app.component('Avatar', Avatar)
+  app.component('Dialog', Dialog)
 }

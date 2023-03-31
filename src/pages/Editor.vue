@@ -61,7 +61,7 @@
           <template #footer>
             <div class="flex gap-2 text-right">
               <Button icon="pi pi-send" label="发布" size="small" @click="handleSubmit"/>
-              <Button icon="pi pi-caret-right" label="测试" severity="success" size="small"/>
+              <Button icon="pi pi-caret-right" label="测试" severity="success" size="small" @click="handleTest"/>
             </div>
           </template>
         </Card>
@@ -69,7 +69,7 @@
     </div>
 
     <!--  emoji选择窗  -->
-    <OverlayPanel ref="emojiSelector">
+    <OverlayPanel ref="emojiSelectorRef">
       <ScrollPanel class="custombar1" style="width: 410px; height: 400px">
         <div class="grid" style="margin-right: 10px">
           <div v-for="emoji in Object.keys(EmojiLib)"
@@ -83,6 +83,8 @@
       </ScrollPanel>
     </OverlayPanel>
   </ScrollPanel>
+
+  <ChatDialog ref="chatDialogRef"/>
 </template>
 
 <script setup lang="ts">
@@ -91,11 +93,13 @@ import EmojiLib from 'emojilib/dist/emoji-en-US.json'
 import { create } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
 import { useRouter } from 'vue-router'
+import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
 
 const router = useRouter()
 const toast = useToast()
 
-const emojiSelector = ref()
+const emojiSelectorRef = ref()
+const chatDialogRef = ref()
 
 const pInvalid = ref([false, false, false])
 const form = ref({
@@ -109,10 +113,10 @@ const form = ref({
 })
 
 const handleBack = () => router.back()
-const toggle = (event: any) => emojiSelector.value.toggle(event)
+const toggle = (event: any) => emojiSelectorRef.value.toggle(event)
 const handleClickEmoji = (emoji: string) => {
   form.value.emoji = emoji
-  emojiSelector.value.hide()
+  emojiSelectorRef.value.hide()
 }
 const getCountText = (length: number, max: number) => length > 0 ? `${length} / ${max}` : ''
 const handleExceed = (index: number, val: string, max: number) => pInvalid.value[index] = val.length > max
@@ -154,6 +158,9 @@ const handleSubmit = () => {
   }).catch(err => {
     toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
   })
+}
+const handleTest = () => {
+  chatDialogRef.value.openDialog(form.value)
 }
 </script>
 
