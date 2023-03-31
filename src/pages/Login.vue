@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap justify-content-center h-full align-items-center select-none">
-    <LoginComp style="max-width: 500px; max-height: 600px;"/>
+    <LoginComp style="max-width: 500px; height: fit-content"/>
   </div>
 </template>
 

@@ -15,3 +15,13 @@ export const register = (data: object) => {
     data
   })
 }
+
+export const requestCode = (phoneNumber: string) => {
+  return request({
+    url: '/auth/requestCode',
+    method: 'post',
+    data: {
+      phoneNumber
+    }
+  })
+}

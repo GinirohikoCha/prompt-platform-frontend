@@ -17,6 +17,17 @@
                  placeholder="000-0000-0000"
                  autoClear/>
 
+      <label for="code" class="block text-900 font-medium mb-2">验证码</label>
+      <div class="w-full mb-3 grid grid-nogutter">
+        <InputMask id="code"
+                   class="col pl-3 mr-2"
+                   v-model="form.code" type="text"
+                   mask="999999"
+                   placeholder="000000"
+                   autoClear/>
+        <Button :label="countDown > 0 ? `等待 ${countDown} 秒` : '发送验证码'" :disabled="countDown > 0" @click="handleRequestCode"/>
+      </div>
+
       <label for="password" class="block text-900 font-medium mb-2">密码</label>
       <Password id="password" v-model="form.password" class="w-full mb-3"
                 :class="{ 'p-invalid': focus && (form.password.length < 8 || form.password.length > 20) }"
@@ -45,7 +56,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { login, register } from '@/api/auth'
+import { register, requestCode } from '@/api/auth'
 import { useToast } from 'primevue/usetoast'
 import { useRouter } from 'vue-router'
 
@@ -55,9 +66,11 @@ const toast = useToast()
 const form = ref({
   username: '',
   phoneNumber: '',
-  password: ''
+  password: '',
+  code: ''
 })
 const focus = ref(false)
+const countDown = ref(0)
 
 const computedForm = computed(() => {
   const computed = { ...form.value }
@@ -72,6 +85,20 @@ const handleRegister = () => {
     router.replace('/')
   }).catch(err => {
     toast.add({ severity: 'error', summary: '注册失败', detail: err.message, life: 3000 })
+  })
+}
+const handleRequestCode = () => {
+  if (!computedForm.value.phoneNumber) {
+    toast.add({ severity: 'error', summary: '发送失败', detail: '未填写手机号', life: 3000 })
+    return
+  }
+
+  requestCode(computedForm.value.phoneNumber).then((res: any) => {
+    countDown.value = 60
+    setInterval(() => countDown.value--, 1000)
+    toast.add({ severity: 'error', summary: '操作成功', detail: res.message, life: 3000 })
+  }).catch(err => {
+    toast.add({ severity: 'error', summary: '请求失败', detail: err.message, life: 3000 })
   })
 }
 </script>
