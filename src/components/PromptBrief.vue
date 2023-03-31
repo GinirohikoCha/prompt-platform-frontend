@@ -14,8 +14,11 @@
       </div>
       <div style="font-size: 0.8rem; margin-top: 0.5rem; font-weight: bold">分享者：{{ props.prompt?.creator || '-' }}</div>
       <div class="flex flex-wrap gap-1" style="margin-top: 0.5rem">
-        <Tag value="官方" />
-        <Tag severity="success" value="开源" />
+        <Tag v-if="props.prompt?.isOfficial" value="官方" />
+        <Tag v-else severity="warning" value="社区" />
+
+        <Tag v-if="props.prompt?.isOpenSource" severity="success" value="开源" />
+        <Tag v-else severity="danger" value="闭源" />
       </div>
     </template>
     <template #footer>
