@@ -12,7 +12,7 @@
         <i class="pi pi-thumbs-up"/>
         <span class="ml-1">{{ props.prompt?.likes }}</span>
       </div>
-      <div style="font-size: 0.8rem; margin-top: 0.5rem; font-weight: bold">分享者：{{ props.prompt?.creator || '-' }}</div>
+      <div style="font-size: 0.8rem; margin-top: 0.5rem; font-weight: bold">分享者：{{ props.prompt?.isOfficial ? '-' : props.prompt?.creator || '-' }}</div>
       <div class="flex flex-wrap gap-1" style="margin-top: 0.5rem">
         <Tag v-if="props.prompt?.isOfficial" value="官方" />
         <Tag v-else severity="warning" value="社区" />
