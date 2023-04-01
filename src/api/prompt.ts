@@ -24,3 +24,15 @@ export const save = (data: object) => {
     data
   })
 }
+
+export const like = (promptId: number, isLike: boolean) => {
+  return request({
+    url: '/prompt/like',
+    method: 'post',
+    data: {
+      promptId,
+      isLike
+    }
+  })
+}
+

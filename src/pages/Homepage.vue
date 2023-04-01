@@ -26,8 +26,8 @@
           </div>
 
           <div class="grid" style="margin-top: 0.8rem">
-            <div v-for="prompt in prompts" :key="prompt" class="col-12 md:col-6 lg:col-3 p-1">
-              <PromptBrief :prompt="prompt" />
+            <div v-for="(prompt, index) in prompts" :key="prompt" class="col-12 md:col-6 lg:col-3 p-1">
+              <PromptBrief :prompt="prompt" @refresh="(newPrompt) => handleRefreshBrief(index, newPrompt)"/>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/SvgIcon.vue'
 import PromptBrief from '@/components/PromptBrief.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, Ref, ref, watch } from 'vue'
 import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
@@ -55,7 +55,7 @@ const toast = useToast()
 const searchTextRef = ref(null)
 const selectCategoryRef = ref('全部')
 
-const prompts = ref([])
+const prompts: Ref<any[]> = ref([])
 
 watch(selectCategoryRef, (newValue) => {
   if (!newValue) {
@@ -72,6 +72,10 @@ const handleNew = () => {
     toast.add({ severity: 'warn', summary: '需要登录', detail: '需要登录后才能使用分享功能', life: 3000 })
   }
 }
+const handleRefreshBrief = (index: number, prompt: object) => {
+  prompts.value[index] = prompt
+}
+
 const refresh = () => {
   list(types.indexOf(selectCategoryRef.value)).then(res => {
     prompts.value = res.data
