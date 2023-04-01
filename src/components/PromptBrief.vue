@@ -64,7 +64,7 @@ const handleEdit = () => {
     } else {
       toast.add({ severity: 'error', summary: '发生错误', detail: '身份验证失败，请重试', life: 3000 })
     }
-  })
+  }).catch(ignored => {})
 }
 const handleLike = () => {
   if (store.isAuth()) {

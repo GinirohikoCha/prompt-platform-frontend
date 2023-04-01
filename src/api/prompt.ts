@@ -36,3 +36,9 @@ export const like = (promptId: number, isLike: boolean) => {
   })
 }
 
+export const remove = (id: any) => {
+  return request({
+    url: `/prompt/${id}`,
+    method: 'delete'
+  })
+}

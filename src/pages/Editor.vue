@@ -62,6 +62,7 @@
             <div class="flex gap-2 text-right">
               <Button icon="pi pi-send" label="发布" size="small" @click="handleSubmit"/>
               <Button icon="pi pi-caret-right" label="测试" severity="success" size="small" @click="handleTest"/>
+              <Button v-if="promptId" icon="pi pi-trash" label="删除" severity="danger" size="small" @click="handleRemove"/>
             </div>
           </template>
         </Card>
@@ -90,7 +91,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import EmojiLib from 'emojilib/dist/emoji-en-US.json'
-import { detail, save } from '@/api/prompt'
+import { detail, remove, save } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
 import { useRoute, useRouter } from 'vue-router'
 import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
@@ -165,6 +166,16 @@ const handleSubmit = () => {
 }
 const handleTest = () => {
   chatDialogRef.value.openDialog(form.value)
+}
+const handleRemove = () => {
+  if (promptId) {
+    remove(promptId).then((res: any) => {
+      toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
+      router.push('/')
+    }).catch(err => {
+      toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+    })
+  }
 }
 
 onMounted(() => {
