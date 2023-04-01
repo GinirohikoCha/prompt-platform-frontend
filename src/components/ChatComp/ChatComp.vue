@@ -13,7 +13,9 @@
           <Fieldset
               v-for="chat in computedPrompt"
               :key="chat"
-              class="mt-2 shadow-1">
+              class="mt-2 shadow-1"
+              toggleable
+              :collapsed="true">
             <template #legend>
               <Avatar v-if="chat.role === 'system'" icon="pi pi-server" shape="circle" />
               <Avatar v-else-if="chat.role === 'assistant'" image="/openai.svg" shape="circle" />
@@ -139,6 +141,10 @@ defineExpose({ initConversation, showTitle })
   padding: 0;
   border: 0;
   background: transparent;
+}
+
+:deep(.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a) {
+  padding: 0;
 }
 
 :deep(.p-fieldset .p-fieldset-content) {
