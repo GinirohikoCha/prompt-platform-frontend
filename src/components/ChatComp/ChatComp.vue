@@ -108,7 +108,7 @@ const sendMessage = () => {
   }).catch(err => {
     const { content } = conversation.value.pop()
     input.value = content
-    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 10000 })
   }).finally(() => {
     loading.value = false
     nextTick(() => {
