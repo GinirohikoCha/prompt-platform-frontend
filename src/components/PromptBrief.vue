@@ -28,20 +28,34 @@
     </template>
     <template #footer>
       <Button icon="pi pi-pencil" label="试一试" size="small" @click="handleTry"/>
+      <Button v-if="store.info.name === props.prompt?.creator" label="编辑" size="small" link @click="handleEdit"/>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { authStore } from '@/stores/auth'
+import { useToast } from 'primevue/usetoast'
 
 const router = useRouter()
+const store = authStore()
+const toast = useToast()
 
 const props = defineProps({
   prompt: Object
 })
 
 const handleTry = () => router.push({ path: '/chat', query: { promptId: props.prompt?.id } })
+const handleEdit = () => {
+  store.getInfo().then(res => {
+    if (store.isAuth()) {
+      router.push({ path: '/editor', query: { promptId: props.prompt?.id } })
+    } else {
+      toast.add({ severity: 'error', summary: '发生错误', detail: '身份验证失败，请重试', life: 3000 })
+    }
+  })
+}
 </script>
 
 <style scoped>

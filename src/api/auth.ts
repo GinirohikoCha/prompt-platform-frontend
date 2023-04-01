@@ -25,3 +25,10 @@ export const requestCode = (phoneNumber: string) => {
     }
   })
 }
+
+export const info = () => {
+  return request({
+    url: '/auth/info',
+    method: 'get'
+  })
+}

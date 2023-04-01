@@ -17,9 +17,9 @@ export const detail = (id: any) => {
   })
 }
 
-export const create = (data: object) => {
+export const save = (data: object) => {
   return request({
-    url: '/prompt/create',
+    url: '/prompt/save',
     method: 'post',
     data
   })

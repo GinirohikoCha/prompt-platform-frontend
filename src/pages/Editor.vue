@@ -7,7 +7,7 @@
             <Button style="vertical-align: top; padding: 9px 20px" icon="pi pi-angle-left" label="返回" link
                     @click="handleBack"/>
             <Divider class="inline" style="padding: 0" layout="vertical"/>
-            <span style="line-height: 39px">创作 Prompt</span>
+            <span style="line-height: 39px">{{ promptId ? `编辑 《${form.emoji} ${form.title}》` : '创作 Prompt' }}</span>
           </template>
           <template #content>
             <!--  表单  -->
@@ -88,27 +88,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import EmojiLib from 'emojilib/dist/emoji-en-US.json'
-import { create } from '@/api/prompt'
+import { detail, save } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
+import * as timers from 'timers'
 
 const router = useRouter()
+const route = useRoute()
 const toast = useToast()
+
+const { promptId } = route.query
 
 const emojiSelectorRef = ref()
 const chatDialogRef = ref()
 
 const pInvalid = ref([false, false, false])
-const form = ref({
+const form: any = ref({
   emoji: '🤖',
   title: '',
   description: '',
   isOpenSource: true,
   sentences: [{
-    roleType: 'system', content: ''
+    role: 'system', content: ''
   }]
 })
 
@@ -152,7 +156,7 @@ const handleSubmit = () => {
     }
   }
 
-  create(form.value).then((res: any) => {
+  save(form.value).then((res: any) => {
     toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
     router.push('/')
   }).catch(err => {
@@ -162,6 +166,17 @@ const handleSubmit = () => {
 const handleTest = () => {
   chatDialogRef.value.openDialog(form.value)
 }
+
+onMounted(() => {
+  if (promptId) {
+    detail(promptId).then(res => {
+      const { id, emoji, title, description, isOpenSource, sentences } = res.data
+      form.value = { id, emoji, title, description, isOpenSource, sentences }
+    }).catch(err => {
+      toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+    })
+  }
+})
 </script>
 
 <style scoped>

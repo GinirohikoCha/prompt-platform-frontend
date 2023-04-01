@@ -26,9 +26,6 @@ const openDialog = (promptParam: object) => {
     chatCompRef.value.showTitle(false)
     chatCompRef.value.initConversation(prompt.value.sentences
         .filter((sentence: any) => sentence.content)
-        .map((sentence: any) => {
-          return { role: sentence.roleType, content: sentence.content }
-        })
     )
   })
 }
