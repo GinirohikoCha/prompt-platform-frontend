@@ -95,11 +95,12 @@ import { detail, remove, save } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
 import { useRoute, useRouter } from 'vue-router'
 import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
-import * as timers from 'timers'
+import { useConfirm } from 'primevue/useconfirm'
 
 const router = useRouter()
 const route = useRoute()
 const toast = useToast()
+const confirm = useConfirm()
 
 const { promptId } = route.query
 
@@ -169,11 +170,19 @@ const handleTest = () => {
 }
 const handleRemove = () => {
   if (promptId) {
-    remove(promptId).then((res: any) => {
-      toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
-      router.push('/')
-    }).catch(err => {
-      toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+    confirm.require({
+      message: '确定删除该 Prompt 吗？删除后将无法恢复',
+      header: `删除 《${form.value.emoji} ${form.value.title}》`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        remove(promptId).then((res: any) => {
+          toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
+          router.push('/')
+        }).catch(err => {
+          toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
+        })
+      },
+      reject: () => {}
     })
   }
 }

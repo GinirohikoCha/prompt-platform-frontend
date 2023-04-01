@@ -30,6 +30,8 @@ import ToastService from 'primevue/toastservice'
 import Fieldset from 'primevue/fieldset'
 import Avatar from 'primevue/avatar'
 import Dialog from 'primevue/dialog'
+import ConfirmDialog from 'primevue/confirmdialog'
+import ConfirmationService from 'primevue/confirmationservice'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -54,4 +56,6 @@ export default (app: App) => {
   app.component('Fieldset', Fieldset)
   app.component('Avatar', Avatar)
   app.component('Dialog', Dialog)
+  app.component('ConfirmDialog', ConfirmDialog)
+  app.use(ConfirmationService)
 }
