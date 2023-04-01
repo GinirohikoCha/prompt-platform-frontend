@@ -28,8 +28,8 @@
           <label for="rememberMe">记住我</label>
         </div>
         <div>
-          <a class="font-medium ml-2 text-blue-500 text-right cursor-pointer">短信登录</a>
-          <a class="font-medium ml-2 text-blue-500 text-right cursor-pointer">忘记密码?</a>
+<!--          <a class="font-medium ml-2 text-blue-500 text-right cursor-pointer">短信登录</a>-->
+<!--          <a class="font-medium ml-2 text-blue-500 text-right cursor-pointer">忘记密码?</a>-->
         </div>
       </div>
 

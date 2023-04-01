@@ -10,6 +10,8 @@ const store = authStore()
 
 onMounted(() => {
   store.getInfo()
+      .then(ignored => {})
+      .catch(ignored => {})
 })
 </script>
 
