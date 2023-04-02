@@ -124,7 +124,6 @@ const sendMessage = () => {
       // 发送失败的消息返还给input
       input.value = conversation.value.pop().content
       toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 10000 })
-    }).finally(() => {
       nextTick(() => {
         document.getElementById('inputTextArea')?.focus()
       })
@@ -133,6 +132,9 @@ const sendMessage = () => {
   sseClient.onmessage = (message) => {
     if (message.data === '[DONE]') {
       loading.value = false
+      nextTick(() => {
+        document.getElementById('inputTextArea')?.focus()
+      })
       console.debug("建立流式传输连接关闭")
       sseClient.close()
     } else {
@@ -141,6 +143,15 @@ const sendMessage = () => {
   }
   sseClient.onerror = (error) => {
     loading.value = false
+    // 移除AI未回复完的话
+    if (conversation.value[conversation.value.length - 1].role === 'assistant') {
+      conversation.value.pop()
+    }
+    // 回复失败的消息返还给input
+    input.value = conversation.value.pop().content
+    nextTick(() => {
+      document.getElementById('inputTextArea')?.focus()
+    })
     console.error(error)
   }
 }
