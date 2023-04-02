@@ -5,7 +5,7 @@
         <Button style="vertical-align: top; padding: 9px 20px" icon="pi pi-angle-left" label="返回" link
                 @click="handleBack"/>
         <Divider class="inline" style="padding: 0" layout="vertical"/>
-        <span style="line-height: 39px">{{ prompt ? `${prompt.emoji} ${prompt.title}` : '聊天' }}</span>
+        <span style="line-height: 39px">{{ prompt ? `${prompt.emoji} ${prompt.title}` : '与 ChatGPT 聊天' }}</span>
       </template>
       <template #content>
         <div class="select-text">
@@ -35,7 +35,8 @@
               <!--                <Avatar v-else-if="chat.role === 'assistant'" :label="prompt?.emoji" shape="circle" />-->
               <Avatar v-else icon="pi pi-user" shape="circle" />
             </template>
-            <p class="m-0">{{ chat.content }}</p>
+            <p v-if="chat.content" class="m-0">{{ chat.content }}</p>
+            <Skeleton v-else height="2rem" class="mb-2"></Skeleton>
           </Fieldset>
         </div>
         <!--  输入框  -->
@@ -64,7 +65,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, nextTick, onMounted, Ref, ref } from 'vue'
 import { detail } from '@/api/prompt'
 import { useToast } from 'primevue/usetoast'
-import { send } from '@/api/chat'
+import { createStream, sendStream } from '@/api/chat'
+import uuid from 'uuid-random'
 
 const router = useRouter()
 const route = useRoute()
@@ -86,7 +88,7 @@ const computedPrompt = computed(() => {
   }
 })
 
-const handleBack = () => router.back()
+const handleBack = () => router.push('/')
 const handleEnter = (event: KeyboardEvent) => {
   if (!event.shiftKey) {
     sendMessage()
@@ -97,6 +99,8 @@ const initConversation = (conversationParam: any[]) => {
 }
 const showTitle = (show: boolean) => displayTitle.value = show
 
+const streamMessage = ref()
+
 const sendMessage = () => {
   if (input.value.length === 0) return
   loading.value = true
@@ -104,19 +108,39 @@ const sendMessage = () => {
   conversation.value.push({ role: 'user', content: input.value })
   // 清空输入
   input.value = ''
+
   // 发送聊天
-  send(promptId, { conversation: conversation.value }).then(res => {
-    conversation.value.push(res.data)
-  }).catch(err => {
-    const { content } = conversation.value.pop()
-    input.value = content
-    toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 10000 })
-  }).finally(() => {
-    loading.value = false
-    nextTick(() => {
-      document.getElementById('inputTextArea')?.focus()
+  const id = uuid()
+  // Sse 创建流式链接
+  const sseClient = createStream(id)
+  sseClient.onopen = () => {
+    console.debug("建立流式传输连接")
+    streamMessage.value = { role: 'assistant', content: '' }
+    conversation.value.push(streamMessage.value)
+    sendStream(promptId, { sseId: id, conversation: conversation.value }).then(res => {
+      // conversation.value.push(res.data)
+    }).catch(err => {
+      const { content } = conversation.value.pop()
+      input.value = content
+      toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 10000 })
+    }).finally(() => {
+      loading.value = false
+      nextTick(() => {
+        document.getElementById('inputTextArea')?.focus()
+      })
     })
-  })
+  }
+  sseClient.onmessage = (message) => {
+    if (message.data === '[DONE]') {
+      console.debug("建立流式传输连接关闭")
+      sseClient.close()
+    } else {
+      streamMessage.value.content += message.data
+    }
+  }
+  sseClient.onerror = (error) => {
+    console.error(error)
+  }
 }
 
 onMounted(() => {

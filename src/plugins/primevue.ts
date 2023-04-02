@@ -32,6 +32,7 @@ import Avatar from 'primevue/avatar'
 import Dialog from 'primevue/dialog'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ConfirmationService from 'primevue/confirmationservice'
+import Skeleton from 'primevue/skeleton'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -58,4 +59,5 @@ export default (app: App) => {
   app.component('Dialog', Dialog)
   app.component('ConfirmDialog', ConfirmDialog)
   app.use(ConfirmationService)
+  app.component('Skeleton', Skeleton)
 }

@@ -28,6 +28,11 @@
             <SelectButton v-model="selectCategoryRef" :options="types" aria-labelledby="basic" />
           </div>
 
+          <div v-if="prompts.length === 0" class="grid" style="margin-top: 0.8rem">
+            <div v-for="ignored in 20" class="col-12 md:col-6 lg:col-4 xl:col-3 p-1">
+              <Skeleton height="262px"/>
+            </div>
+          </div>
           <div class="grid" style="margin-top: 0.8rem">
             <div v-for="(prompt, index) in prompts" :key="prompt" class="col-12 md:col-6 lg:col-4 xl:col-3 p-1">
               <PromptBrief :prompt="prompt" @refresh="(newPrompt) => handleRefreshBrief(index, newPrompt)"/>

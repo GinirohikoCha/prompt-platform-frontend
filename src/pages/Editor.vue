@@ -118,7 +118,7 @@ const form: any = ref({
   }]
 })
 
-const handleBack = () => router.back()
+const handleBack = () => router.push('/')
 const toggle = (event: any) => emojiSelectorRef.value.toggle(event)
 const handleClickEmoji = (emoji: string) => {
   form.value.emoji = emoji
