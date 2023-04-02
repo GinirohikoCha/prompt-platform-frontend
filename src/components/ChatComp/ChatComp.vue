@@ -120,11 +120,11 @@ const sendMessage = () => {
     sendStream(promptId, { sseId: id, conversation: conversation.value }).then(res => {
       // conversation.value.push(res.data)
     }).catch(err => {
-      const { content } = conversation.value.pop()
-      input.value = content
+      loading.value = false
+      // 发送失败的消息返还给input
+      input.value = conversation.value.pop().content
       toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 10000 })
     }).finally(() => {
-      loading.value = false
       nextTick(() => {
         document.getElementById('inputTextArea')?.focus()
       })
@@ -132,6 +132,7 @@ const sendMessage = () => {
   }
   sseClient.onmessage = (message) => {
     if (message.data === '[DONE]') {
+      loading.value = false
       console.debug("建立流式传输连接关闭")
       sseClient.close()
     } else {
@@ -139,6 +140,7 @@ const sendMessage = () => {
     }
   }
   sseClient.onerror = (error) => {
+    loading.value = false
     console.error(error)
   }
 }
