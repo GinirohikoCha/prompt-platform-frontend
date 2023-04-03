@@ -16,7 +16,10 @@
             <i class="pi pi-search"/>
             <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw"/>
             <label for="value">查询 Prompt</label>
-            <Button class="ml-2 shadow-5" label="分享" icon="pi pi-plus" @click="handleNew"/>
+            <span class="ml-2 shadow-5 p-buttonset">
+              <Button label="聊天" icon="pi pi-comment" @click="handleChat"/>
+              <Button label="创作" icon="pi pi-plus" @click="handleNew"/>
+            </span>
           </span>
         </div>
 
@@ -25,8 +28,13 @@
             <SelectButton v-model="selectCategoryRef" :options="types" aria-labelledby="basic" />
           </div>
 
+          <div v-if="prompts.length === 0" class="grid" style="margin-top: 0.8rem">
+            <div v-for="ignored in 20" class="col-12 md:col-6 lg:col-4 xl:col-3 p-1">
+              <Skeleton height="262px"/>
+            </div>
+          </div>
           <div class="grid" style="margin-top: 0.8rem">
-            <div v-for="(prompt, index) in prompts" :key="prompt" class="col-12 md:col-6 lg:col-3 p-1">
+            <div v-for="(prompt, index) in prompts" :key="prompt" class="col-12 md:col-6 lg:col-4 xl:col-3 p-1">
               <PromptBrief :prompt="prompt" @refresh="(newPrompt) => handleRefreshBrief(index, newPrompt)"/>
             </div>
           </div>
@@ -64,6 +72,7 @@ watch(selectCategoryRef, (newValue) => {
   refresh()
 })
 
+const handleChat = () => router.push('/chat')
 const handleNew = () => {
   if (store.isAuth()) {
     router.push('/editor')

@@ -7,7 +7,7 @@
             <Button style="vertical-align: top; padding: 9px 20px" icon="pi pi-angle-left" label="返回" link
                     @click="handleBack"/>
             <Divider class="inline" style="padding: 0" layout="vertical"/>
-            <span style="line-height: 39px">{{ promptId ? `编辑 《${form.emoji} ${form.title}》` : '创作 Prompt' }}</span>
+            <span style="line-height: 39px">{{ editId ? `编辑 《${form.emoji} ${form.title}》` : '创作 Prompt' }}</span>
           </template>
           <template #content>
             <!--  表单  -->
@@ -62,7 +62,7 @@
             <div class="flex gap-2 text-right">
               <Button icon="pi pi-send" label="发布" size="small" @click="handleSubmit"/>
               <Button icon="pi pi-caret-right" label="测试" severity="success" size="small" @click="handleTest"/>
-              <Button v-if="promptId" icon="pi pi-trash" label="删除" severity="danger" size="small" @click="handleRemove"/>
+              <Button v-if="editId" icon="pi pi-trash" label="删除" severity="danger" size="small" @click="handleRemove"/>
             </div>
           </template>
         </Card>
@@ -102,7 +102,7 @@ const route = useRoute()
 const toast = useToast()
 const confirm = useConfirm()
 
-const { promptId } = route.query
+const { editId } = route.query
 
 const emojiSelectorRef = ref()
 const chatDialogRef = ref()
@@ -118,7 +118,7 @@ const form: any = ref({
   }]
 })
 
-const handleBack = () => router.back()
+const handleBack = () => router.push('/')
 const toggle = (event: any) => emojiSelectorRef.value.toggle(event)
 const handleClickEmoji = (emoji: string) => {
   form.value.emoji = emoji
@@ -169,13 +169,13 @@ const handleTest = () => {
   chatDialogRef.value.openDialog(form.value)
 }
 const handleRemove = () => {
-  if (promptId) {
+  if (editId) {
     confirm.require({
       message: '确定删除该 Prompt 吗？删除后将无法恢复',
       header: `删除 《${form.value.emoji} ${form.value.title}》`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        remove(promptId).then((res: any) => {
+        remove(editId).then((res: any) => {
           toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
           router.push('/')
         }).catch(err => {
@@ -188,8 +188,8 @@ const handleRemove = () => {
 }
 
 onMounted(() => {
-  if (promptId) {
-    detail(promptId).then(res => {
+  if (editId) {
+    detail(editId).then(res => {
       const { id, emoji, title, description, isOpenSource, sentences } = res.data
       form.value = { id, emoji, title, description, isOpenSource, sentences }
     }).catch(err => {

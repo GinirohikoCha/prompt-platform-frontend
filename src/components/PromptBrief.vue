@@ -60,7 +60,7 @@ const handleTry = () => router.push({ path: '/chat', query: { promptId: vPrompt.
 const handleEdit = () => {
   store.getInfo().then(res => {
     if (store.isAuth()) {
-      router.push({ path: '/editor', query: { promptId: vPrompt.value?.id } })
+      router.push({ path: '/editor', query: { editId: vPrompt.value?.id } })
     } else {
       toast.add({ severity: 'error', summary: '发生错误', detail: '身份验证失败，请重试', life: 3000 })
     }

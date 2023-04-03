@@ -7,3 +7,15 @@ export const send = (promptId: any, data: object) => {
     data
   })
 }
+
+export const createStream = (id: string) => {
+  return new EventSource(`${import.meta.env.DEV ? 'http://localhost:5173/' : ''}${import.meta.env.VITE_APP_BASE_URL}/chat/createStream?sseId=` + id);
+}
+
+export const sendStream = (promptId: any, data: object) => {
+  return request({
+    url: `/chat/sendStream${promptId ? '/' + promptId: ''}`,
+    method: 'post',
+    data
+  })
+}

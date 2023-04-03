@@ -2,12 +2,6 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useGuard } from '@/router/guard'
 import Layout from '@/layout/Layout.vue'
 
-import Homepage from '@/pages/Homepage.vue'
-import Editor from '@/pages/Editor.vue'
-import Login from '@/pages/Login.vue'
-import Register from '@/pages/Register.vue'
-import Chat from '@/pages/Chat.vue'
-
 declare module 'vue-router' {
   interface RouteMeta {
     title?: string,
@@ -23,7 +17,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'homepage',
         name: 'Homepage',
-        component: () => Homepage,
+        component: () => import('@/pages/Homepage.vue'),
         meta: {
           title: '首页'
         }
@@ -31,7 +25,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'editor',
         name: 'Editor',
-        component: () => Editor,
+        component: () => import('@/pages/Editor.vue'),
         meta: {
           title: '创作'
         }
@@ -39,7 +33,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'chat',
         name: 'Chat',
-        component: () => Chat,
+        component: () => import('@/pages/Chat.vue'),
         meta: {
           title: '聊天'
         }
@@ -49,12 +43,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('@/pages/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: () => import('@/pages/Register.vue')
   },
   /* 404 */
   {
