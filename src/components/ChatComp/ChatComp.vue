@@ -35,7 +35,7 @@
               <!--                <Avatar v-else-if="chat.role === 'assistant'" :label="prompt?.emoji" shape="circle" />-->
               <Avatar v-else icon="pi pi-user" shape="circle" />
             </template>
-            <p v-if="chat.content" class="m-0">{{ chat.content }}</p>
+            <v-md-preview v-if="chat.content" :text="chat.content" />
             <Skeleton v-else height="2rem" class="mb-2"></Skeleton>
           </Fieldset>
         </div>
@@ -140,7 +140,7 @@ const sendMessage = () => {
     } else if (message.data.startsWith('[ERROR]')) {
       toast.add({ severity: 'error', summary: '发生错误', detail: message.data.substring(7), life: 10000 })
     } else {
-      streamMessage.value.content += message.data
+      streamMessage.value.content += decodeURIComponent(message.data)
     }
   }
   sseClient.onerror = (error) => {
@@ -198,6 +198,11 @@ defineExpose({ initConversation, showTitle })
 
 :deep(.p-avatar.p-avatar-image) {
   background-color: #6fa395;
+}
+
+:deep(.vuepress-markdown-body) {
+  padding: 0;
+  font-size: 14px;
 }
 
 .input-field {
