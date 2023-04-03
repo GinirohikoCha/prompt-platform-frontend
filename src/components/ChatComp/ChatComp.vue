@@ -137,6 +137,8 @@ const sendMessage = () => {
       })
       console.debug("建立流式传输连接关闭")
       sseClient.close()
+    } else if (message.data.startsWith('[ERROR]')) {
+      toast.add({ severity: 'error', summary: '发生错误', detail: message.data.substring(7), life: 10000 })
     } else {
       streamMessage.value.content += message.data
     }
@@ -148,11 +150,12 @@ const sendMessage = () => {
       conversation.value.pop()
     }
     // 回复失败的消息返还给input
-    input.value = conversation.value.pop().content
+    input.value = conversation.value.pop()?.content
     nextTick(() => {
       document.getElementById('inputTextArea')?.focus()
     })
     console.error(error)
+    sseClient.close()
   }
 }
 
