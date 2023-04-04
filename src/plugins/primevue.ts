@@ -33,6 +33,7 @@ import Dialog from 'primevue/dialog'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ConfirmationService from 'primevue/confirmationservice'
 import Skeleton from 'primevue/skeleton'
+import TieredMenu from 'primevue/tieredmenu'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -60,4 +61,5 @@ export default (app: App) => {
   app.component('ConfirmDialog', ConfirmDialog)
   app.use(ConfirmationService)
   app.component('Skeleton', Skeleton)
+  app.component('TieredMenu', TieredMenu)
 }

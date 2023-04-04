@@ -1,5 +1,6 @@
 <template>
   <ScrollPanel class="h-full w-full">
+    <UserNav/>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
@@ -53,6 +54,7 @@ import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
 import { useRouter } from 'vue-router'
+import UserNav from '@/components/UserComp/UserNav.vue'
 
 const types = ['全部', '热门', '最新'];
 

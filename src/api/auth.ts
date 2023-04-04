@@ -32,3 +32,10 @@ export const info = () => {
     method: 'get'
   })
 }
+
+export const logout = () => {
+  return request({
+    url: '/auth/logout',
+    method: 'post'
+  })
+}
