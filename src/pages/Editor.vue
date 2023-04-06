@@ -54,7 +54,10 @@
               </div>
               <div class="w-full text-left" style="margin-top: 2rem">
                 <Checkbox v-model="form.isOpenSource" inputId="isOpenSource" :binary="true" />
-                <label for="isOpenSource" class="ml-2">是否开源</label>
+                <label for="isOpenSource" class="ml-2">
+                  是否开源
+                  <i class="pi pi-question-circle helper-icon ml-1" v-tooltip="{ value: openSource, escape: true, class: 'helper-tooltip'}"/>
+                </label>
               </div>
             </div>
           </template>
@@ -97,6 +100,7 @@ import { useRoute, useRouter } from 'vue-router'
 import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
 import { useConfirm } from 'primevue/useconfirm'
 import { authStore } from '@/stores/auth'
+import openSource from '@/components/Helper/open-source'
 
 const router = useRouter()
 const route = useRoute()
