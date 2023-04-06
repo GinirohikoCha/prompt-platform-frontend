@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 
-export const list = (type: number) => {
+export const list = (type: number, search: string) => {
   return request({
     url: '/prompt/list',
     method: 'get',
     params: {
-      type
+      type,
+      search
     }
   })
 }

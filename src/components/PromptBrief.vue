@@ -28,7 +28,7 @@
     </template>
     <template #footer>
       <Button icon="pi pi-pencil" label="试一试" size="small" @click="handleTry"/>
-      <Button v-if="store.info.name === vPrompt?.creator" label="编辑" size="small" link @click="handleEdit"/>
+      <Button v-if="store.info.username === vPrompt?.creator" label="编辑" size="small" link @click="handleEdit"/>
     </template>
   </Card>
 </template>

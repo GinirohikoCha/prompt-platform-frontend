@@ -1,5 +1,6 @@
 <template>
   <ScrollPanel class="h-full w-full">
+    <UserNav/>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
@@ -14,7 +15,7 @@
         <div style="margin-top: 20px">
           <span class="p-input-icon-left p-float-label">
             <i class="pi pi-search"/>
-            <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw"/>
+            <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw" @keydown.enter="handleEnter"/>
             <label for="value">查询 Prompt</label>
             <span class="ml-2 shadow-5 p-buttonset">
               <Button label="聊天" icon="pi pi-comment" @click="handleChat"/>
@@ -28,7 +29,7 @@
             <SelectButton v-model="selectCategoryRef" :options="types" aria-labelledby="basic" />
           </div>
 
-          <div v-if="prompts.length === 0" class="grid" style="margin-top: 0.8rem">
+          <div v-if="loading" class="grid" style="margin-top: 0.8rem">
             <div v-for="ignored in 20" class="col-12 md:col-6 lg:col-4 xl:col-3 p-1">
               <Skeleton height="262px"/>
             </div>
@@ -53,6 +54,7 @@ import { authStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
 import { useRouter } from 'vue-router'
+import UserNav from '@/components/UserComp/UserNav.vue'
 
 const types = ['全部', '热门', '最新'];
 
@@ -60,8 +62,9 @@ const router = useRouter()
 const store = authStore()
 const toast = useToast()
 
-const searchTextRef = ref(null)
+const searchTextRef = ref()
 const selectCategoryRef = ref('全部')
+const loading = ref(true)
 
 const prompts: Ref<any[]> = ref([])
 
@@ -81,13 +84,23 @@ const handleNew = () => {
     toast.add({ severity: 'warn', summary: '需要登录', detail: '需要登录后才能使用分享功能', life: 3000 })
   }
 }
+const handleEnter = () => {
+  if (!loading.value) {
+    refresh()
+  }
+}
 const handleRefreshBrief = (index: number, prompt: object) => {
   prompts.value[index] = prompt
 }
 
 const refresh = () => {
-  list(types.indexOf(selectCategoryRef.value)).then(res => {
+  loading.value = true
+  list(types.indexOf(selectCategoryRef.value), searchTextRef.value).then(res => {
     prompts.value = res.data
+    loading.value = false
+    if (prompts.value.length == 0) {
+      toast.add({ severity: 'info', summary: '查询结果', detail: '未查询到与关键词相关的 Prompt', life: 3000 })
+    }
   }).catch(err => {
     toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
   })
