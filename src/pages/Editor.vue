@@ -191,7 +191,9 @@ onMounted(() => {
   if (editId) {
     detail(editId).then(res => {
       const { id, emoji, title, description, isOpenSource, sentences } = res.data
-      form.value = { id, emoji, title, description, isOpenSource, sentences }
+      form.value = { id, emoji, title, description, isOpenSource,
+        sentences: sentences.length > 0 ? sentences : [{ role: 'system', content: '' }]
+      }
     }).catch(err => {
       toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
     })
