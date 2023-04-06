@@ -96,11 +96,13 @@ import { useToast } from 'primevue/usetoast'
 import { useRoute, useRouter } from 'vue-router'
 import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
 import { useConfirm } from 'primevue/useconfirm'
+import { authStore } from '@/stores/auth'
 
 const router = useRouter()
 const route = useRoute()
 const toast = useToast()
 const confirm = useConfirm()
+const store = authStore()
 
 const { editId } = route.query
 
@@ -190,7 +192,11 @@ const handleRemove = () => {
 onMounted(() => {
   if (editId) {
     detail(editId).then(res => {
-      const { id, emoji, title, description, isOpenSource, sentences } = res.data
+      const { id, emoji, title, description, isOpenSource, sentences, creator } = res.data
+      if (store.info?.username !== creator) {
+        toast.add({ severity: 'error', summary: '编辑错误', detail: '你不是该 Prompt 的创建者', life: 3000 })
+        router.push('/')
+      }
       form.value = { id, emoji, title, description, isOpenSource,
         sentences: sentences.length > 0 ? sentences : [{ role: 'system', content: '' }]
       }

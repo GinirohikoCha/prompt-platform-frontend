@@ -7,7 +7,10 @@ const cookies = new Cookies()
 export const authStore = defineStore('auth', {
   state: () => {
     return {
-      info: {}
+      info: <{
+        username?,
+        phoneNumber?,
+      }>{}
     }
   },
   actions: {
