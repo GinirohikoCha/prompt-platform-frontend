@@ -3,13 +3,16 @@
     <div class="grid">
       <div class="col flex justify-content-center" >
         <div class="mt-3">
-          <Avatar
-              :label="info.username?.slice(0, 1) ?? '未'"
-              class="select-none"
-              style="background: #6366F1; color: white; font-family: monospace"
-              shape="circle"
-              size="xlarge"/>
-          <Button class="mt-2 change-avatar-button" style="padding: 0" label="更换头像" size="small" link />
+          <div class="flex justify-content-center">
+            <Avatar
+                :label="info.username?.slice(0, 1) ?? '未'"
+                class="select-none"
+                style="background: #6366F1; color: white; font-family: monospace"
+                shape="circle"
+                size="xlarge"/>
+          </div>
+<!--          <Button class="mt-2 change-avatar-button" style="padding: 0" label="更换头像" size="small" link />-->
+          <div class="mt-2 change-avatar-button">{{ info.username }}</div>
         </div>
       </div>
       <div class="col">
