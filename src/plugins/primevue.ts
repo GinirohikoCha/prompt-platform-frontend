@@ -34,10 +34,12 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import ConfirmationService from 'primevue/confirmationservice'
 import Skeleton from 'primevue/skeleton'
 import TieredMenu from 'primevue/tieredmenu'
+import SplitButton from 'primevue/splitbutton'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
   app.component('Button', Button)
+  app.component('SplitButton', SplitButton)
   app.component('Image', Image)
   app.component('InputText', InputText)
   app.component('SelectButton', SelectButton)

@@ -4,7 +4,8 @@
       class="chat-dialog"
       style="width: 50vw;"
       :header="`${prompt.emoji} ${prompt.title}`"
-      :breakpoints="{ '960px': '75vw', '641px': '100vw' }"
+      :draggable="false"
+      :breakpoints="{ '1600px': '60vw', '1280px': '75vw', '960px': '85vw', '641px': '95vw' }"
       modal>
     <ChatComp ref="chatCompRef" class="select-none w-full" />
   </Dialog>

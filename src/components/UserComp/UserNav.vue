@@ -34,6 +34,9 @@ import { authStore } from '@/stores/auth'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
+import { userCenterStore } from '@/stores/user-center'
+
+const userCenter = userCenterStore()
 
 const router = useRouter()
 const store = authStore()
@@ -50,7 +53,7 @@ const menuItems = ref([{
   label: '用户中心',
   icon: 'pi pi-fw pi-user',
   command: () => {
-    toast.add({ severity: 'warn', summary: '敬请期待', detail: '还在开发中！', life: 3000 })
+    userCenter.openUserCenter()
   }
 }, {
   separator: true

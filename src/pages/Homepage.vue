@@ -1,6 +1,7 @@
 <template>
   <ScrollPanel class="h-full w-full">
     <UserNav/>
+
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8 select-none">
       <div class="text-700 text-center">
         <div class="text-blue-600 font-bold mb-3">
@@ -18,8 +19,8 @@
             <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw" @keydown.enter="handleEnter"/>
             <label for="value">查询 Prompt</label>
             <span class="ml-2 shadow-5 p-buttonset">
-              <Button label="聊天" icon="pi pi-comment" @click="handleChat"/>
-              <Button label="创作" icon="pi pi-plus" @click="handleNew"/>
+              <Button v-tooltip.bottom="{ value: startPureChat, escape: true, class: 'helper-tooltip'}" label="聊天" icon="pi pi-comment" @click="handleChat"/>
+              <Button v-tooltip.bottom="{ value: startCreatePrompt, escape: true, class: 'helper-tooltip'}"  label="创作" icon="pi pi-plus" @click="handleNew"/>
             </span>
           </span>
         </div>
@@ -55,6 +56,8 @@ import { useToast } from 'primevue/usetoast'
 import { list } from '@/api/prompt'
 import { useRouter } from 'vue-router'
 import UserNav from '@/components/UserComp/UserNav.vue'
+import startPureChat from '@/components/Helper/start-pure-chat'
+import startCreatePrompt from '@/components/Helper/start-create-prompt'
 
 const types = ['全部', '热门', '最新'];
 

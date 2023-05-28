@@ -27,8 +27,10 @@
       </div>
     </template>
     <template #footer>
-      <Button icon="pi pi-pencil" label="试一试" size="small" @click="handleTry"/>
-      <Button v-if="store.info.username === vPrompt?.creator" label="编辑" size="small" link @click="handleEdit"/>
+      <span :class="{ 'p-buttonset': store.info.username === vPrompt?.creator }">
+        <Button icon="pi pi-reply" label="试一试" size="small" @click="handleTry"/>
+        <Button v-if="store.info.username === vPrompt?.creator" label="编辑" severity="secondary" size="small" @click="handleEdit"/>
+      </span>
     </template>
   </Card>
 </template>

@@ -6,6 +6,9 @@ import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
 import installPrimeVueComps from '@/plugins/primevue'
 
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 import '@/style/index.scss'
 import 'virtual:svg-icons-register'
 
@@ -31,5 +34,6 @@ installPrimeVueComps(app)
 app.use(router)
   .use(createPinia())
   .use(PrimeVue)
+  .use(ElementPlus)
   .use(VMdPreview)
 app.mount('#app')
