@@ -50,7 +50,9 @@ const props = defineProps({
   prompt: Object
 })
 const emit = defineEmits({
-  'refresh': null
+  'refresh': null,
+  'like': null,
+  'unlike': null
 })
 
 const vPrompt = computed({
@@ -72,6 +74,13 @@ const handleLike = () => {
   if (store.isAuth()) {
     like(vPrompt.value?.id, !vPrompt.value?.liked).then((res: any) => {
       toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
+      // 触发事件
+      if (vPrompt.value?.liked) {
+        emit('unlike')
+      } else {
+        emit('like')
+      }
+      // 刷新该Prompt信息
       refresh()
     }).catch(err => {
       toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
