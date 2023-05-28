@@ -39,3 +39,14 @@ export const logout = () => {
     method: 'post'
   })
 }
+
+export const resetPassword = (password: string, code: string) => {
+  return request({
+    url: '/auth/resetPassword',
+    method: 'post',
+    data: {
+      password,
+      code
+    }
+  })
+}

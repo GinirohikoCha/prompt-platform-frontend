@@ -96,7 +96,7 @@ const handleRequestCode = () => {
   requestCode(computedForm.value.phoneNumber).then((res: any) => {
     countDown.value = 60
     setInterval(() => countDown.value--, 1000)
-    toast.add({ severity: 'error', summary: '操作成功', detail: res.message, life: 3000 })
+    toast.add({ severity: 'success', summary: '操作成功', detail: res.message, life: 3000 })
   }).catch(err => {
     toast.add({ severity: 'error', summary: '请求失败', detail: err.message, life: 3000 })
   })
