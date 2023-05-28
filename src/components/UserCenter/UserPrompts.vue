@@ -7,7 +7,10 @@
     </div>
     <div class="grid">
       <div v-for="(prompt, index) in prompts" :key="prompt" class="col-12 md:col-6 lg:col-6 xl:col-4 p-1">
-        <PromptBrief :prompt="prompt" @refresh="(newPrompt) => handleRefreshBrief(index, newPrompt)"/>
+        <PromptBrief :prompt="prompt"
+                     @refresh="(newPrompt) => handleRefreshBrief(index, newPrompt)"
+                     @try="userCenter.closeUserCenter()"
+                     @edit="userCenter.closeUserCenter()"/>
       </div>
     </div>
   </div>
@@ -18,8 +21,10 @@ import { onMounted, Ref, ref } from 'vue'
 import PromptBrief from '@/components/PromptBrief.vue'
 import { useToast } from 'primevue/usetoast'
 import { listMyPrompts } from '@/api/user'
+import { userCenterStore } from '@/stores/user-center'
 
 const toast = useToast()
+const userCenter = userCenterStore()
 
 const loading = ref(true)
 

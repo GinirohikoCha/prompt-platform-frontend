@@ -52,7 +52,9 @@ const props = defineProps({
 const emit = defineEmits({
   'refresh': null,
   'like': null,
-  'unlike': null
+  'unlike': null,
+  'edit': null,
+  'try': null
 })
 
 const vPrompt = computed({
@@ -60,11 +62,15 @@ const vPrompt = computed({
   set: (newValue) => emit('refresh', newValue)
 })
 
-const handleTry = () => router.push({ path: '/chat', query: { promptId: vPrompt.value?.id } })
+const handleTry = () => {
+  router.push({ path: '/chat', query: { promptId: vPrompt.value?.id } })
+  emit('try')
+}
 const handleEdit = () => {
   store.getInfo().then(res => {
     if (store.isAuth()) {
       router.push({ path: '/editor', query: { editId: vPrompt.value?.id } })
+      emit('edit')
     } else {
       toast.add({ severity: 'error', summary: '发生错误', detail: '身份验证失败，请重试', life: 3000 })
     }

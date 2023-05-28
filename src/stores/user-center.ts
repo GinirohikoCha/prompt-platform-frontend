@@ -8,7 +8,10 @@ export const userCenterStore = defineStore('user-center', {
   },
   actions: {
     openUserCenter() {
-      this.userCenterRef && this.userCenterRef.show()
+      this.userCenterRef && this.userCenterRef.open()
+    },
+    closeUserCenter() {
+      this.userCenterRef && this.userCenterRef.close()
     },
   }
 })

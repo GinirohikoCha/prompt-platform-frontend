@@ -33,9 +33,8 @@ const likePromptsRef: Ref = ref(null)
 const visible = ref(false)
 const active = ref('个人信息')
 
-const show = () => {
-  visible.value = true
-}
+const open = () => visible.value = true
+const close = () => visible.value = false
 
 const handleTabChange = (name: string) => {
   switch (name) {
@@ -49,7 +48,8 @@ const handleTabChange = (name: string) => {
 }
 
 defineExpose({
-  show
+  open,
+  close
 })
 </script>
 
