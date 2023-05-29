@@ -18,11 +18,11 @@
             <i class="pi pi-search"/>
             <InputText class="font-bold shadow-5" v-model="searchTextRef" style="width: 50vw" @keydown.enter="handleEnter"/>
             <label for="value">查询 Prompt</label>
-            <span class="ml-2 shadow-5 p-buttonset">
+          </span>
+          <span class="p-buttonset block md:inline mt-3 md:mt-0 md:ml-2 ">
               <Button v-tooltip.bottom="{ value: startPureChat, escape: true, class: 'helper-tooltip'}" label="聊天" icon="pi pi-comment" @click="handleChat"/>
               <Button v-tooltip.bottom="{ value: startCreatePrompt, escape: true, class: 'helper-tooltip'}"  label="创作" icon="pi pi-plus" @click="handleNew"/>
             </span>
-          </span>
         </div>
 
         <div style="display: inline-block; margin-top: 50px; width: 60vw">

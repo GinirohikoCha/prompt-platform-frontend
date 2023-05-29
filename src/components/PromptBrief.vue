@@ -22,8 +22,9 @@
         <Tag v-if="vPrompt?.isOfficial" value="官方" />
         <Tag v-else severity="warning" value="社区" />
 
-        <Tag v-if="vPrompt?.isOpenSource" severity="success" value="开源" />
-        <Tag v-else severity="danger" value="闭源" />
+        <Tag v-if="vPrompt?.openType === 'OPEN'" severity="success" value="开源" />
+        <Tag v-else-if="vPrompt?.openType === 'CLOSE'" severity="danger" value="闭源" />
+        <Tag v-else-if="vPrompt?.openType === 'PRIVATE'" severity="danger" value="私有" />
       </div>
     </template>
     <template #footer>

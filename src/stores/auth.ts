@@ -10,6 +10,7 @@ export const authStore = defineStore('auth', {
       info: <{
         username?,
         phoneNumber?,
+        promptLimit?,
       }>{}
     }
   },

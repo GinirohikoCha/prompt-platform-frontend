@@ -53,11 +53,25 @@
                 </span>
               </div>
               <div class="w-full text-left" style="margin-top: 2rem">
-                <Checkbox v-model="form.isOpenSource" inputId="isOpenSource" :binary="true" />
-                <label for="isOpenSource" class="ml-2">
-                  是否开源
-                  <i class="pi pi-question-circle helper-icon ml-1" v-tooltip="{ value: openSource, escape: true, class: 'helper-tooltip'}"/>
-                </label>
+                <div class="flex flex-wrap gap-3">
+                  <div class="flex align-items-center">
+                    <RadioButton v-model="form.openType" inputId="openType" name="openType" value="OPEN" />
+                    <label for="ingredient1" class="ml-2">
+                      开源
+                      <i class="pi pi-question-circle helper-icon ml-1" v-tooltip="{ value: openSource, escape: true, class: 'helper-tooltip'}"/>
+                    </label>
+                  </div>
+                  <div class="flex align-items-center">
+                    <RadioButton v-model="form.openType" inputId="openType" name="openType" value="CLOSE" />
+                    <label for="ingredient2" class="ml-2">闭源</label>
+                    <i class="pi pi-question-circle helper-icon ml-1" v-tooltip="{ value: closeSource, escape: true, class: 'helper-tooltip'}"/>
+                  </div>
+                  <div class="flex align-items-center">
+                    <RadioButton v-model="form.openType" inputId="openType" name="openType" value="PRIVATE" />
+                    <label for="ingredient3" class="ml-2">私有</label>
+                    <i class="pi pi-question-circle helper-icon ml-1" v-tooltip="{ value: privateSource, escape: true, class: 'helper-tooltip'}"/>
+                  </div>
+                </div>
               </div>
             </div>
           </template>
@@ -101,6 +115,8 @@ import ChatDialog from '@/components/ChatComp/ChatDialog.vue'
 import { useConfirm } from 'primevue/useconfirm'
 import { authStore } from '@/stores/auth'
 import openSource from '@/components/Helper/open-source'
+import closeSource from '@/components/Helper/close-source'
+import privateSource from '@/components/Helper/private-source'
 
 const router = useRouter()
 const route = useRoute()
@@ -118,7 +134,7 @@ const form: any = ref({
   emoji: '🤖',
   title: '',
   description: '',
-  isOpenSource: true,
+  openType: 'OPEN',
   sentences: [{
     role: 'system', content: ''
   }]
@@ -196,12 +212,12 @@ const handleRemove = () => {
 onMounted(() => {
   if (editId) {
     detail(editId).then(res => {
-      const { id, emoji, title, description, isOpenSource, sentences, creator } = res.data
+      const { id, emoji, title, description, openType, sentences, creator } = res.data
       if (store.info?.username !== creator) {
         toast.add({ severity: 'error', summary: '编辑错误', detail: '你不是该 Prompt 的创建者', life: 3000 })
         router.push('/')
       }
-      form.value = { id, emoji, title, description, isOpenSource,
+      form.value = { id, emoji, title, description, openType,
         sentences: sentences.length > 0 ? sentences : [{ role: 'system', content: '' }]
       }
     }).catch(err => {

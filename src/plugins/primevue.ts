@@ -35,6 +35,8 @@ import ConfirmationService from 'primevue/confirmationservice'
 import Skeleton from 'primevue/skeleton'
 import TieredMenu from 'primevue/tieredmenu'
 import SplitButton from 'primevue/splitbutton'
+import ProgressBar from 'primevue/progressbar'
+import RadioButton from 'primevue/radiobutton'
 
 export default (app: App) => {
   app.directive('tooltip', Tooltip)
@@ -64,4 +66,6 @@ export default (app: App) => {
   app.use(ConfirmationService)
   app.component('Skeleton', Skeleton)
   app.component('TieredMenu', TieredMenu)
+  app.component('ProgressBar', ProgressBar)
+  app.component('RadioButton', RadioButton)
 }
