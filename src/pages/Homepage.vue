@@ -117,8 +117,10 @@ const refresh = () => {
   })
 }
 
-const loadMore = () => {
-  list(types.indexOf(selectCategoryRef.value), searchTextRef.value, page.value).then(res => {
+const loadMore = async () => {
+  try {
+    const res: any = await list(types.indexOf(selectCategoryRef.value), searchTextRef.value, page.value)
+    // 数据处理
     prompts.value = prompts.value.concat(res.data)
     loading.value = false
     if (res.data.length === 0) {
@@ -126,16 +128,21 @@ const loadMore = () => {
     } else {
       page.value++
     }
-  }).catch(err => {
+  } catch (err) {
     loadDisabled.value = true
     toast.add({ severity: 'error', summary: '发生错误', detail: err.message, life: 3000 })
-  })
+  }
 }
 
-onMounted(() => {
+onMounted(async () => {
   refresh()
   // 监听滚动到底事件
   const scrollPanel = document.querySelector('.p-scrollpanel-content')
+  // 当加载不满一屏时，自动加载更多
+  while (scrollPanel?.clientHeight && scrollPanel?.clientHeight >= scrollPanel?.scrollHeight) {
+    await loadMore()
+  }
+  // 监听滚动到底事件
   scrollPanel?.addEventListener('scroll', () => {
     if (scrollPanel.scrollTop + scrollPanel.clientHeight >= scrollPanel.scrollHeight - 10) {
       if (!loading.value && !loadDisabled.value) {
